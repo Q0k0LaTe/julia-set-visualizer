@@ -1,0 +1,12 @@
+{
+    "name": "julia-set-visualization",
+    "version": "1.0.0",
+    "description": "A Node.js server for visualizing Julia sets",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.18.2"
+    }
+  }

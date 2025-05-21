@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Julia Set Visualization</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    canvas {
+      border: 1px solid #333;
+      margin-bottom: 20px;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="range"] {
+      width: 200px;
+    }
+    .value-display {
+      text-align: center;
+      font-family: monospace;
+    }
+    .presets {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    button {
+      padding: 8px 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Julia Set Explorer</h1>
+  
+  <div class="container">
+    <canvas id="juliaCanvas" width="600" height="600"></canvas>
+    
+    <div class="presets">
+      <button id="preset1">Preset 1</button>
+      <button id="preset2">Preset 2</button>
+      <button id="preset3">Preset 3</button>
+      <button id="preset4">Preset 4</button>
+    </div>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label for="realPart">Real Part (c_real):</label>
+        <input type="range" id="realPart" min="-2" max="2" step="0.01" value="-0.7">
+        <div id="realValue" class="value-display">-0.7</div>
+      </div>
+      
+      <div class="control-group">
+        <label for="imagPart">Imaginary Part (c_imag):</label>
+        <input type="range" id="imagPart" min="-2" max="2" step="0.01" value="0.27">
+        <div id="imagValue" class="value-display">0.27</div>
+      </div>
+      
+      <div class="control-group">
+        <label for="maxIterations">Max Iterations:</label>
+        <input type="range" id="maxIterations" min="10" max="1000" step="10" value="100">
+        <div id="iterValue" class="value-display">100</div>
+      </div>
+      
+      <div class="control-group">
+        <label for="zoomLevel">Zoom Level:</label>
+        <input type="range" id="zoomLevel" min="0.5" max="5" step="0.1" value="1">
+        <div id="zoomValue" class="value-display">1.0</div>
+      </div>
+    </div>
+    
+    <button id="download">Download Image</button>
+  </div>
+
+  <div class="container">
+    <h2>About Julia Sets</h2>
+    <p>
+      The Julia set is a fractal that arises from the study of complex dynamics. It's defined as the set of points z in the 
+      complex plane for which the function f(z) = z² + c does not escape to infinity when iterated repeatedly.
+    </p>
+    <p>
+      Different values of the complex constant c produce different Julia sets. Use the sliders to adjust the real and 
+      imaginary parts of c, as well as the maximum number of iterations and zoom level.
+    </p>
+  </div>
+
+  <script src="julia.js"></script>
+</body>
+</html>
