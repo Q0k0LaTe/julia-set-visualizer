@@ -1,6 +1,6 @@
 # Julia Set Fractal Visualizer
 
-![Julia Set Example](https://raw.githubusercontent.com/Q0k0LaTe/julia-set-visualizer/main/screenshots/example.png)
+![Julia Set Example](https://raw.githubusercontent.com/Q0k0LaTe/julia-set-visualizer/master/screenshots/example.png)
 
 An interactive web application for exploring and visualizing Julia set fractals using Node.js and HTML5 Canvas.
 
