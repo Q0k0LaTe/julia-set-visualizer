@@ -16,7 +16,7 @@ An interactive web application for exploring and visualizing Julia set fractals 
 
 ## Live Demo
 
-[Live Demo Link - Update with your deployed URL]
+https://julia-set-visualizer.onrender.com/
 
 ## Installation
 
