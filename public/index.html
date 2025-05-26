@@ -3,126 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Julia Set Visualization</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    h1 {
-      color: #333;
-    }
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-    }
-    canvas {
-      border: 1px solid #333;
-      margin-bottom: 20px;
-    }
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    .control-group {
-      display: flex;
-      flex-direction: column;
-    }
-    label {
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input[type="range"] {
-      width: 200px;
-    }
-    .value-display {
-      text-align: center;
-      font-family: monospace;
-    }
-    .presets {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    button {
-      padding: 8px 12px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
+  <title>Julia Set Dynamical Systems Visualization</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Julia Set Explorer</h1>
-  
-  <div class="container">
-    <canvas id="juliaCanvas" width="600" height="600"></canvas>
-    
-    <div class="presets">
-      <button id="preset1">Preset 1</button>
-      <button id="preset2">Preset 2</button>
-      <button id="preset3">Preset 3</button>
-      <button id="preset4">Preset 4</button>
-    </div>
-    
-    <div class="controls">
-      <div class="control-group">
-        <label for="realPart">Real Part (c_real):</label>
-        <input type="range" id="realPart" min="-2" max="2" step="0.01" value="-0.7">
-        <div id="realValue" class="value-display">-0.7</div>
+  <div class="academic-container">
+    <header class="paper-header">
+      <h1>Interactive Visualization of Julia Set Dynamics</h1>
+      <p class="subtitle">Complex Dynamical Systems and Fractal Geometry</p>
+      <div class="metadata">
+        <span class="department">Beijing National Day School</span>
+        <span class="separator">•</span>
+        <span class="subject">Terrence Han, Corin Wang, Changson Dong, Harry Qin</span>
       </div>
-      
-      <div class="control-group">
-        <label for="imagPart">Imaginary Part (c_imag):</label>
-        <input type="range" id="imagPart" min="-2" max="2" step="0.01" value="0.27">
-        <div id="imagValue" class="value-display">0.27</div>
-      </div>
-      
-      <div class="control-group">
-        <label for="maxIterations">Max Iterations:</label>
-        <input type="range" id="maxIterations" min="10" max="1000" step="10" value="100">
-        <div id="iterValue" class="value-display">100</div>
-      </div>
-      
-      <div class="control-group">
-        <label for="zoomLevel">Zoom Level:</label>
-        <input type="range" id="zoomLevel" min="0.5" max="5" step="0.1" value="1">
-        <div id="zoomValue" class="value-display">1.0</div>
-      </div>
-    </div>
-    
-    <button id="download">Download Image</button>
-  </div>
+    </header>
 
-  <div class="container">
-    <h2>About Julia Sets</h2>
-    <p>
-      The Julia set is a fractal that arises from the study of complex dynamics. It's defined as the set of points z in the 
-      complex plane for which the function f(z) = z² + c does not escape to infinity when iterated repeatedly.
-    </p>
-    <p>
-      Different values of the complex constant c produce different Julia sets. Use the sliders to adjust the real and 
-      imaginary parts of c, as well as the maximum number of iterations and zoom level.
-    </p>
+    <main class="content-grid">
+      <section class="visualization-panel">
+        <div class="figure-container">
+          <div class="canvas-wrapper">
+            <canvas id="juliaCanvas" width="600" height="600"></canvas>
+            <div class="loading-overlay" id="loadingOverlay">
+              <div class="computation-indicator">
+                <div class="spinner"></div>
+                <span>Computing iterations...</span>
+              </div>
+            </div>
+          </div>
+          <div class="figure-caption">
+            <strong>Figure 1:</strong> Julia set J<sub>c</sub> for the quadratic polynomial f<sub>c</sub>(z) = z² + c, 
+            where c = <span id="currentC">-0.70 + 0.27i</span>. 
+            Colors represent escape-time iteration counts under the discrete dynamical system.
+          </div>
+        </div>
+      </section>
+
+      <aside class="control-panel">
+        <div class="parameter-section">
+          <h3>Parameter Configuration</h3>
+          
+          <div class="preset-configurations">
+            <h4>Notable Examples</h4>
+            <div class="preset-grid">
+              <button class="preset-btn" id="preset1" data-citation="[Douady & Hubbard, 1985]">
+                Basilica Julia Set
+              </button>
+              <button class="preset-btn" id="preset2" data-citation="[Mandelbrot, 1982]">
+                Dendrite Structure
+              </button>
+              <button class="preset-btn" id="preset3" data-citation="[Devaney, 1989]">
+                Siegel Disk
+              </button>
+              <button class="preset-btn" id="preset4" data-citation="[Milnor, 2006]">
+                Parabolic Fixed Point
+              </button>
+            </div>
+          </div>
+
+          <div class="parameter-controls">
+            <div class="parameter-group">
+              <div class="parameter-header">
+                <label for="realPart">Re(c) - Real Component</label>
+                <div class="value-display" id="realValue">-0.700</div>
+              </div>
+              <input type="range" id="realPart" min="-2" max="2" step="0.001" value="-0.7" class="academic-slider">
+              <div class="parameter-range">[-2.000, 2.000]</div>
+            </div>
+            
+            <div class="parameter-group">
+              <div class="parameter-header">
+                <label for="imagPart">Im(c) - Imaginary Component</label>
+                <div class="value-display" id="imagValue">0.270</div>
+              </div>
+              <input type="range" id="imagPart" min="-2" max="2" step="0.001" value="0.27" class="academic-slider">
+              <div class="parameter-range">[-2.000, 2.000]</div>
+            </div>
+            
+            <div class="parameter-group">
+              <div class="parameter-header">
+                <label for="maxIterations">Maximum Iterations (N)</label>
+                <div class="value-display" id="iterValue">256</div>
+              </div>
+              <input type="range" id="maxIterations" min="50" max="1000" step="1" value="256" class="academic-slider">
+              <div class="parameter-range">[50, 1000]</div>
+            </div>
+            
+            <div class="parameter-group">
+              <div class="parameter-header">
+                <label for="zoomLevel">Magnification Factor</label>
+                <div class="value-display" id="zoomValue">1.00×</div>
+              </div>
+              <input type="range" id="zoomLevel" min="0.5" max="10" step="0.01" value="1" class="academic-slider">
+              <div class="parameter-range">[0.50×, 10.00×]</div>
+            </div>
+          </div>
+
+          <div class="export-section">
+            <button class="export-btn" id="download">Export High-Resolution Figure</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <section class="theoretical-background">
+      <h2>Mathematical Framework</h2>
+      
+      <div class="theory-grid">
+        <div class="theory-block">
+          <h3>Definition</h3>
+          <p>The Julia set J<sub>c</sub> of a quadratic polynomial f<sub>c</sub>(z) = z² + c is defined as the boundary of the set of points whose orbits under iteration remain bounded.</p>
+          <div class="formula">
+            J<sub>c</sub> = ∂{z ∈ ℂ : {f<sub>c</sub><sup>n</sup>(z)}<sub>n≥0</sub> is bounded}
+          </div>
+        </div>
+
+        <div class="theory-block">
+          <h3>Escape Time Algorithm</h3>
+          <p>For computational visualization, we employ the escape time criterion: a point z<sub>0</sub> is considered to escape if |f<sub>c</sub><sup>n</sup>(z<sub>0</sub>)| > 2 for some iteration n ≤ N.</p>
+          <div class="algorithm">
+            <strong>Algorithm:</strong><br>
+            1. Initialize z₀ ∈ ℂ<br>
+            2. Iterate z<sub>n+1</sub> = z<sub>n</sub>² + c<br>
+            3. Count iterations until |z<sub>n</sub>| > 2<br>
+            4. Apply color mapping based on escape time
+          </div>
+        </div>
+
+        <div class="theory-block">
+          <h3>Dynamical Properties</h3>
+          <p>The parameter c determines the topological and geometric properties of the resulting Julia set, ranging from connected Cantor sets to disconnected dust-like structures.</p>
+          <ul class="property-list">
+            <li><strong>Connected:</strong> When c lies within the Mandelbrot set</li>
+            <li><strong>Totally disconnected:</strong> When c lies outside the Mandelbrot set</li>
+            <li><strong>Self-similar:</strong> Exhibits fractal scaling properties</li>
+            <li><strong>Hausdorff dimension:</strong> Generally between 1 and 2</li>
+          </ul>
+        </div>
+
+        <div class="theory-block">
+          <h3>References</h3>
+          <div class="citations">
+            <p>[1] Douady, A., & Hubbard, J. H. (1985). "On the dynamics of polynomial-like mappings." <em>Annales scientifiques de l'École normale supérieure</em>, 18(2), 287-343.</p>
+            <p>[2] Mandelbrot, B. B. (1982). <em>The Fractal Geometry of Nature</em>. W. H. Freeman and Company.</p>
+            <p>[3] Devaney, R. L. (1989). <em>An Introduction to Chaotic Dynamical Systems</em>. Addison-Wesley.</p>
+            <p>[4] Milnor, J. (2006). <em>Dynamics in One Complex Variable</em>. Princeton University Press.</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script src="julia.js"></script>
