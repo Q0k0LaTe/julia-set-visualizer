@@ -47,50 +47,68 @@ document.addEventListener('DOMContentLoaded', () => {
     let normalized;
     
     if (iterations === maxIterations) {
-      // For points in the Julia set, use subtle variations based on final position
+      // For points in the Julia set, use rich variations based on final position
       const angle = Math.atan2(zy, zx);
       const radius = Math.sqrt(zx * zx + zy * zy);
-      normalized = (Math.sin(angle * 2) * 0.5 + 0.5) * 0.3 + 0.05;
+      normalized = (Math.sin(angle * 4) * 0.5 + 0.5) * 0.4 + 0.1;
     } else {
-      // Smooth coloring for escaped points
+      // Smooth coloring for escaped points with enhanced smoothing
       const smoothed = iterations + 1 - Math.log(Math.log(Math.abs(zx * zx + zy * zy))) / Math.log(2);
-      normalized = smoothed / maxIterations;
+      normalized = Math.pow(smoothed / maxIterations, 0.8); // Power scaling for better distribution
     }
     
-    // Academic color scheme: professional and publication-ready
+    // Enhanced academic color scheme with richer colors
     let r, g, b;
     
-    if (normalized < 0.1) {
-      // Deep navy for points in the set
-      const t = normalized * 10;
-      r = Math.floor(15 + t * 25);
-      g = Math.floor(25 + t * 35);
-      b = Math.floor(45 + t * 55);
-    } else if (normalized < 0.3) {
-      // Navy to blue transition
-      const t = (normalized - 0.1) * 5;
-      r = Math.floor(40 + t * 40);
-      g = Math.floor(60 + t * 60);
-      b = Math.floor(100 + t * 80);
-    } else if (normalized < 0.6) {
-      // Blue to teal transition
-      const t = (normalized - 0.3) * 3.33;
-      r = Math.floor(80 + t * 40);
-      g = Math.floor(120 + t * 80);
-      b = Math.floor(180 - t * 60);
+    if (normalized < 0.12) {
+      // Rich midnight blue to royal blue
+      const t = normalized * 8.33;
+      r = Math.floor(10 + t * 35);
+      g = Math.floor(15 + t * 50);
+      b = Math.floor(60 + t * 95);
+    } else if (normalized < 0.25) {
+      // Royal blue to vibrant cyan
+      const t = (normalized - 0.12) * 7.69;
+      r = Math.floor(45 + t * 20);
+      g = Math.floor(65 + t * 120);
+      b = Math.floor(155 + t * 80);
+    } else if (normalized < 0.4) {
+      // Cyan to emerald green
+      const t = (normalized - 0.25) * 6.67;
+      r = Math.floor(65 - t * 35);
+      g = Math.floor(185 + t * 50);
+      b = Math.floor(235 - t * 135);
+    } else if (normalized < 0.55) {
+      // Emerald to forest green
+      const t = (normalized - 0.4) * 6.67;
+      r = Math.floor(30 + t * 40);
+      g = Math.floor(235 - t * 85);
+      b = Math.floor(100 - t * 50);
+    } else if (normalized < 0.7) {
+      // Forest green to warm orange
+      const t = (normalized - 0.55) * 6.67;
+      r = Math.floor(70 + t * 185);
+      g = Math.floor(150 + t * 80);
+      b = Math.floor(50 + t * 30);
     } else if (normalized < 0.85) {
-      // Teal to gold transition
-      const t = (normalized - 0.6) * 4;
-      r = Math.floor(120 + t * 135);
-      g = Math.floor(200 + t * 55);
-      b = Math.floor(120 - t * 80);
+      // Orange to deep magenta
+      const t = (normalized - 0.7) * 6.67;
+      r = Math.floor(255 - t * 75);
+      g = Math.floor(230 - t * 150);
+      b = Math.floor(80 + t * 120);
     } else {
-      // Gold to white for highest escape times
+      // Deep magenta to bright violet
       const t = (normalized - 0.85) * 6.67;
-      r = Math.floor(255);
-      g = Math.floor(255);
-      b = Math.floor(40 + t * 215);
+      r = Math.floor(180 + t * 55);
+      g = Math.floor(80 + t * 100);
+      b = Math.floor(200 + t * 55);
     }
+    
+    // Add subtle shimmer effect for more dynamic appearance
+    const shimmer = Math.sin(normalized * Math.PI * 6) * 0.15 + 1;
+    r = Math.min(255, Math.floor(r * shimmer));
+    g = Math.min(255, Math.floor(g * shimmer));
+    b = Math.min(255, Math.floor(b * shimmer));
     
     // Ensure values are within bounds
     r = Math.min(255, Math.max(0, r));
